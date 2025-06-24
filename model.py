@@ -21,30 +21,37 @@ ps = PorterStemmer()
 
 def transform_text(text):
     import nltk
-    nltk.data.path.append('./nltk_data')  # Tell NLTK to use local tokenizer
-
+    import string
     from nltk.stem.porter import PorterStemmer
     from nltk.corpus import stopwords
-    import string
 
+    # Point to local nltk_data directory
+    nltk.data.path.append('./nltk_data')
+
+    # Initialize stemmer
     ps = PorterStemmer()
 
+    # Convert to lowercase
     text = text.lower()
-    text = nltk.word_tokenize(text)  # This uses 'punkt', now from local folder
-    y = []
-    for i in text:
-        if i.isalnum():
-            y.append(i)
-    text = y[:]
-    y.clear()
-    for i in text:
-        if i not in stopwords.words('english') and i not in string.punctuation:
-            y.append(i)
-    text = y[:]
-    y.clear()
-    for i in text:
-        y.append(ps.stem(i))
-    return " ".join(y)
+
+    # Tokenize (uses punkt tokenizer)
+    try:
+        nltk.data.find('tokenizers/punkt')
+    except LookupError:
+        nltk.download('punkt', download_dir='./nltk_data')
+
+    text = nltk.word_tokenize(text)
+
+    # Remove non-alphanumeric
+    text = [word for word in text if word.isalnum()]
+
+    # Remove stopwords and punctuation
+    text = [word for word in text if word not in stopwords.words('english') and word not in string.punctuation]
+
+    # Apply stemming
+    text = [ps.stem(word) for word in text]
+
+    return " ".join(text)
 
 
 # Only run training when executed directly
