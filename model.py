@@ -1,5 +1,8 @@
-import pandas as pd
 import nltk
+nltk.download('punkt')
+
+import pandas as pd
+
 from sklearn.preprocessing import LabelEncoder
 from nltk.stem.porter import PorterStemmer
 from nltk.corpus import stopwords
@@ -9,7 +12,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer as tv
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import  accuracy_score,precision_score
-nltk.download('punkt')
+
 
 ps = PorterStemmer()
 
