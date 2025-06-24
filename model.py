@@ -1,8 +1,5 @@
 import nltk
-nltk.download('punkt')
-
 import pandas as pd
-
 from sklearn.preprocessing import LabelEncoder
 from nltk.stem.porter import PorterStemmer
 from nltk.corpus import stopwords
@@ -11,11 +8,10 @@ import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer as tv
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import  accuracy_score,precision_score
 
+nltk.download('punkt')
 
 ps = PorterStemmer()
-
 
 def transform_text(text):
     text = text.lower()
@@ -30,35 +26,37 @@ def transform_text(text):
         if i not in stopwords.words('english') and i not in string.punctuation:
             y.append(i)
     text = y[:]
-    y.clear()  # Removed the stray ']' that was causing the syntax error
-
+    y.clear()
     for i in text:
         y.append(ps.stem(i))
-        
     return " ".join(y)
 
-data = pd.read_csv("spam.csv", encoding='latin1')
-data.drop(columns =['Unnamed: 2','Unnamed: 3','Unnamed: 4'],inplace=True)
-data.rename(columns={'v1':'target','v2':'text'},inplace=True)
-encoder = LabelEncoder()
-data['target'] = encoder.fit_transform(data['target'])
-data.drop_duplicates(keep = 'first')
-data['text'] = data['text'].apply(transform_text)
-tb = tv(max_features=3000)
-x = tb.fit_transform(data['text']).toarray()
-y = data['target']
-x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.3,random_state=42)
+# Only run training when executed directly
+if __name__ == "__main__":
+    data = pd.read_csv("spam.csv", encoding='latin1')
+    data.drop(columns=['Unnamed: 2', 'Unnamed: 3', 'Unnamed: 4'], inplace=True)
+    data.rename(columns={'v1': 'target', 'v2': 'text'}, inplace=True)
 
-mnb =MultinomialNB()
-mnb.fit(x_train,y_train)
-y_pred = mnb.predict(x_test)
-print(accuracy_score(y_test,y_pred))
-print(precision_score(y_test,y_pred))
+    encoder = LabelEncoder()
+    data['target'] = encoder.fit_transform(data['target'])
 
-model = mnb
-vectorizer = tb
+    data.drop_duplicates(keep='first', inplace=True)
+    data['text'] = data['text'].apply(transform_text)
 
-with open('C:/Users/Subham/Desktop/machine learning projects/sms spam detection/model.pkl','wb') as f:
-    pickle.dump(model,f)
-with open('C:/Users/Subham/Desktop/machine learning projects/sms spam detection/vectorizer.pkl', 'wb') as f:
-    pickle.dump(tb, f)
+    tb = tv(max_features=3000)
+    x = tb.fit_transform(data['text']).toarray()
+    y = data['target']
+
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=42)
+
+    mnb = MultinomialNB()
+    mnb.fit(x_train, y_train)
+
+    # Save model and vectorizer
+    with open('model.pkl', 'wb') as f:
+        pickle.dump(mnb, f)
+    with open('vectorizer.pkl', 'wb') as f:
+        pickle.dump(tb, f)
+
+    # Optional: print accuracy
+    print("Model trained and saved successfully.")
