@@ -33,7 +33,7 @@ def transform_text(text):
         
     return " ".join(y)
 
-data = pd.read_csv("C:/Users/Subham/Desktop/spam.csv", encoding='latin1')
+data = pd.read_csv("spam.csv", encoding='latin1')
 data.drop(columns =['Unnamed: 2','Unnamed: 3','Unnamed: 4'],inplace=True)
 data.rename(columns={'v1':'target','v2':'text'},inplace=True)
 encoder = LabelEncoder()
