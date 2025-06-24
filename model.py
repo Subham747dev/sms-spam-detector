@@ -21,10 +21,12 @@ ps = PorterStemmer()
 
 def transform_text(text):
     import nltk
+    nltk.data.path.append('./nltk_data')  # <- THIS LINE IS IMPORTANT
+
     try:
         nltk.data.find('tokenizers/punkt')
     except LookupError:
-        nltk.download('punkt')
+        nltk.download('punkt', download_dir='./nltk_data')
 
     from nltk.stem.porter import PorterStemmer
     import string
@@ -48,6 +50,7 @@ def transform_text(text):
     for i in text:
         y.append(ps.stem(i))
     return " ".join(y)
+
 
 # Only run training when executed directly
 if __name__ == "__main__":
