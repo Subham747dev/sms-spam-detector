@@ -21,21 +21,16 @@ ps = PorterStemmer()
 
 def transform_text(text):
     import nltk
-    nltk.data.path.append('./nltk_data')  # <- THIS LINE IS IMPORTANT
-
-    try:
-        nltk.data.find('tokenizers/punkt')
-    except LookupError:
-        nltk.download('punkt', download_dir='./nltk_data')
+    nltk.data.path.append('./nltk_data')  # Tell NLTK to use local tokenizer
 
     from nltk.stem.porter import PorterStemmer
-    import string
     from nltk.corpus import stopwords
+    import string
 
     ps = PorterStemmer()
 
     text = text.lower()
-    text = nltk.word_tokenize(text)
+    text = nltk.word_tokenize(text)  # This uses 'punkt', now from local folder
     y = []
     for i in text:
         if i.isalnum():
