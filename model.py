@@ -1,4 +1,11 @@
 import nltk
+
+# Download 'punkt' tokenizer safely
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
+
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from nltk.stem.porter import PorterStemmer
@@ -9,8 +16,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer as tv
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 
-nltk.download('punkt_tab'
-nltk.download('punkt')
+
+
 
 ps = PorterStemmer()
 
