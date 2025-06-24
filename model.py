@@ -1,54 +1,30 @@
 import nltk
-nltk.data.path.append('./nltk_data')
+
+# ✅ Clear any previous paths and set only the clean one
+nltk.data.path.clear()
+nltk.data.path.append("/tmp/nltk_data")
+
+# 🔽 Import tokenizer after setting clean path
 from nltk.tokenize import word_tokenize
-
-# Download 'punkt' tokenizer safely
-nltk.data.path.append('./nltk_data')
-
 
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from nltk.stem.porter import PorterStemmer
 from nltk.corpus import stopwords
-import string
 import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer as tv
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 
-
-
-
 ps = PorterStemmer()
 
 def transform_text(text):
-    import nltk
-    import string
-    from nltk.stem.porter import PorterStemmer
-    from nltk.corpus import stopwords
-
-    # Point to local nltk_data directory
-    nltk.data.path.append('./nltk_data')
-
-    ps = PorterStemmer()
-
     text = text.lower()
-
-    # Tokenize using local punkt
-    from nltk.tokenize import word_tokenize
     text = word_tokenize(text)
-
-    # Remove non-alphanumeric
     text = [word for word in text if word.isalnum()]
-
-    # Remove stopwords and punctuation
     text = [word for word in text if word not in stopwords.words('english')]
-
-    # Apply stemming
     text = [ps.stem(word) for word in text]
-
     return " ".join(text)
-
 
 # Only run training when executed directly
 if __name__ == "__main__":
@@ -71,11 +47,9 @@ if __name__ == "__main__":
     mnb = MultinomialNB()
     mnb.fit(x_train, y_train)
 
-    # Save model and vectorizer
     with open('model.pkl', 'wb') as f:
         pickle.dump(mnb, f)
     with open('vectorizer.pkl', 'wb') as f:
         pickle.dump(tb, f)
 
-    # Optional: print accuracy
     print("Model trained and saved successfully.")

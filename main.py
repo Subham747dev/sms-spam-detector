@@ -1,9 +1,20 @@
 
+
 import nltk
+
+# 🚫 Clear all previous paths to avoid loading corrupted punkt_tab or wrong data
+nltk.data.path.clear()
+
+# ✅ Set only the correct path
 nltk.data.path.append("/tmp/nltk_data")
-nltk.download('punkt', download_dir='/tmp/nltk_data')
-nltk.download('stopwords', download_dir='/tmp/nltk_data')
-nltk.data.path.append('./nltk_data')
+
+# ✅ Download required resources to the correct path
+nltk.download('punkt', download_dir="/tmp/nltk_data")
+nltk.download('stopwords', download_dir="/tmp/nltk_data")
+
+# ❌ Remove this line – it's unnecessary and may load local junk:
+# nltk.data.path.append('./nltk_data')
+
 
 
 import streamlit as st
