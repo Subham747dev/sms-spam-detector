@@ -9,6 +9,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer as tv
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 
+nltk.download('punkt_tab'
 nltk.download('punkt')
 
 ps = PorterStemmer()
