@@ -1,8 +1,6 @@
 import nltk
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt')
+nltk.data.path.append('./nltk_data')
+
 
 import streamlit as st
 from model import transform_text
