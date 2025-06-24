@@ -1,10 +1,8 @@
 import nltk
 
 # Download 'punkt' tokenizer safely
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt')
+nltk.data.path.append('./nltk_data')
+
 
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
