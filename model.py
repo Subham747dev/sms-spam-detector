@@ -1,4 +1,6 @@
 import nltk
+nltk.data.path.append('./nltk_data')
+from nltk.tokenize import word_tokenize
 
 # Download 'punkt' tokenizer safely
 nltk.data.path.append('./nltk_data')
@@ -33,7 +35,8 @@ def transform_text(text):
     text = text.lower()
 
     # Tokenize using local punkt
-    text = nltk.word_tokenize(text)
+    from nltk.tokenize import word_tokenize
+    text = word_tokenize(text)
 
     # Remove non-alphanumeric
     text = [word for word in text if word.isalnum()]
