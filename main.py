@@ -1,21 +1,16 @@
-from model import transform_text
 import streamlit as st
 import pickle
-import nltk
-from nltk.stem.porter import PorterStemmer
-from nltk.corpus import stopwords
-import string
+from model import transform_text
 
-# Load model and vectorizer
-model = pickle.load(open("C:/Users/Subham/Desktop/machine learning projects/sms spam detection/model.pkl", 'rb'))
-vectorizer = pickle.load(open("C:/Users/Subham/Desktop/machine learning projects/sms spam detection/vectorizer.pkl", 'rb'))
+# Load model
+model = pickle.load(open('model.pkl', 'rb'))
+vectorizer = pickle.load(open('vectorizer.pkl', 'rb'))
 
+st.title("SMS Spam Classifier")
 
-st.title("📩 SMS Spam Classifier")
+input_sms = st.text_area("Enter your message")
 
-input_sms = st.text_area("Enter the message")
-
-if st.button('Check'):
+if st.button('Predict'):
     # 1. Preprocess
     transformed_sms = transform_text(input_sms)
 
@@ -25,8 +20,6 @@ if st.button('Check'):
     # 3. Predict
     result = model.predict(vector_input)[0]
 
-    # 4. Output
-    if result == 1:
-        st.error("🚫 Spam Message")
-    else:
-        st.success("✅ Not a Spam Message")
+    # 4. Display
+    st.subheader("Prediction:")
+    st.success("Spam" if result == 1 else "Not Spam")
