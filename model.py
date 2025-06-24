@@ -28,25 +28,18 @@ def transform_text(text):
     # Point to local nltk_data directory
     nltk.data.path.append('./nltk_data')
 
-    # Initialize stemmer
     ps = PorterStemmer()
 
-    # Convert to lowercase
     text = text.lower()
 
-    # Tokenize (uses punkt tokenizer)
-    try:
-        nltk.data.find('tokenizers/punkt')
-    except LookupError:
-        nltk.download('punkt', download_dir='./nltk_data')
-
+    # Tokenize using local punkt
     text = nltk.word_tokenize(text)
 
     # Remove non-alphanumeric
     text = [word for word in text if word.isalnum()]
 
     # Remove stopwords and punctuation
-    text = [word for word in text if word not in stopwords.words('english') and word not in string.punctuation]
+    text = [word for word in text if word not in stopwords.words('english')]
 
     # Apply stemming
     text = [ps.stem(word) for word in text]
