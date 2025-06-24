@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Download required nltk data to a writable folder
+# Create target directory
 mkdir -p /tmp/nltk_data
 
-python -m nltk.downloader -d /tmp/nltk_data punkt stopwords
+# Download required nltk data non-interactively
+python -m nltk.downloader punkt stopwords -d /tmp/nltk_data
