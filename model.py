@@ -22,6 +22,18 @@ from sklearn.naive_bayes import MultinomialNB
 ps = PorterStemmer()
 
 def transform_text(text):
+    import nltk
+    try:
+        nltk.data.find('tokenizers/punkt')
+    except LookupError:
+        nltk.download('punkt')
+
+    from nltk.stem.porter import PorterStemmer
+    import string
+    from nltk.corpus import stopwords
+
+    ps = PorterStemmer()
+
     text = text.lower()
     text = nltk.word_tokenize(text)
     y = []
